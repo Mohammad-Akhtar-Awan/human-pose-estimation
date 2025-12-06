@@ -225,15 +225,6 @@ createCanvas(630, 450, 0, 0);  // width, height
 
 ---
 
-## 🎥 YouTube Demos
-
-Full-length annotated videos are available on YouTube:
-
-- **🏈 Football:** [![Football demo](https://img.youtube.com/vi/SZ1sjwjK9xg/hqdefault.jpg)](https://www.youtube.com/watch?v=SZ1sjwjK9xg)
-- **🏃 Running:** [![Running demo](https://img.youtube.com/vi/puZ_7-WxDvk/hqdefault.jpg)](https://www.youtube.com/watch?v=puZ_7-WxDvk)
-
----
-
 ## 📜 License & Acknowledgements
 
 This project uses:

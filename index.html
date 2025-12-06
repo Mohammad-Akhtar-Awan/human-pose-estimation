@@ -1,0 +1,20 @@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pose Estimation</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <script src="sketch.js"></script>
+</head>
+<body>
+    <h1>Pose Estimation Demo Project</h1>
+    <p>
+        Select a video to play and annotate:
+        <select id="sourceSelect">
+            <option value="">-- choose a video --</option>
+        </select>
+    </p>
+    <p>
+        Notes: Run a local server (e.g. <code>python -m http.server 8000</code>) to allow video files to load in the browser.
+    </p>
+</body>

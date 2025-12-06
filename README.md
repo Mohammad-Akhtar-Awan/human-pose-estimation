@@ -1,5 +1,14 @@
 # Pose Estimation — Live & Batch
 
+<p align="center">
+	<a href="https://www.youtube.com/watch?v=SZ1sjwjK9xg" target="_blank">
+		<img src="images/annotated_football.gif" alt="Football demo" width="360" style="margin-right:12px;"/>
+	</a>
+	<a href="https://www.youtube.com/watch?v=puZ_7-WxDvk" target="_blank">
+		<img src="images/annotated_running.gif" alt="Running demo" width="360"/>
+	</a>
+</p>
+
 This project demonstrates pose/keypoint estimation in two ways:
 - A browser demo using `p5.js` + `ml5` (PoseNet) for live webcam or local video playback.
 - A Python batch processor (`process_videos.py`) that annotates all videos in `videos/` using MediaPipe and writes annotated videos and snapshots to `outputs/`.

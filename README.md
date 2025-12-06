@@ -76,18 +76,6 @@ I also generated thumbnails saved in `images/`:
 - `images/annotated_football_thumb.jpg`
 - `images/annotated_running_thumb.jpg`
 
-Preview (click to open the video in the repo):
-
-- Football: ![football thumbnail](images/annotated_football_thumb.jpg) — `videos/annotated_football.mp4`
-- Running: ![running thumbnail](images/annotated_running_thumb.jpg) — `videos/annotated_running.mp4`
-
-**YouTube Demos**
-
-You uploaded annotated videos to YouTube — the README links below use clickable thumbnails that open the videos on YouTube (GitHub does not allow direct iframe embeds in README files).
-
-- **Football**: [![Football demo](https://img.youtube.com/vi/SZ1sjwjK9xg/hqdefault.jpg)](https://www.youtube.com/watch?v=SZ1sjwjK9xg)
-- **Running**: [![Running demo](https://img.youtube.com/vi/puZ_7-WxDvk/hqdefault.jpg)](https://www.youtube.com/watch?v=puZ_7-WxDvk)
-
 To regenerate these annotated outputs locally I used `process_videos_ultralytics.py` (Ultralytics prediction) and `convert_and_copy.py` (re-encode `.avi` to `.mp4` and extract thumbnails).
 
 **Customizing**

@@ -1,4 +1,4 @@
-# Pose Estimation — Live & Batch
+# Human Pose Estimation — Live & Batch
 
 <p align="center">
 	<a href="https://www.youtube.com/watch?v=SZ1sjwjK9xg" target="_blank">

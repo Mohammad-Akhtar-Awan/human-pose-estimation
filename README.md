@@ -1,98 +1,253 @@
-# Human Pose Estimation — Live & Batch
+# 🎯 Human Pose Estimation
+
+> A comprehensive pose estimation system combining browser-based real-time detection with batch video processing. Detect and annotate human keypoints in videos using PoseNet and MediaPipe.
 
 <p align="center">
-	<a href="https://www.youtube.com/watch?v=SZ1sjwjK9xg" target="_blank">
-		<img src="images/annotated_football.gif" alt="Football demo" width="360" style="margin-right:12px;"/>
-	</a>
-	<a href="https://www.youtube.com/watch?v=puZ_7-WxDvk" target="_blank">
-		<img src="images/annotated_running.gif" alt="Running demo" width="360"/>
-	</a>
+  <a href="https://www.youtube.com/watch?v=SZ1sjwjK9xg" target="_blank">
+    <img src="images/annotated_football.gif" alt="Football demo" width="360" style="margin-right:12px;"/>
+  </a>
+  <a href="https://www.youtube.com/watch?v=puZ_7-WxDvk" target="_blank">
+    <img src="images/annotated_running.gif" alt="Running demo" width="360"/>
+  </a>
 </p>
 
-This project demonstrates pose/keypoint estimation in two ways:
-- A browser demo using `p5.js` + `ml5` (PoseNet) for live webcam or local video playback.
-- A Python batch processor (`process_videos.py`) that annotates all videos in `videos/` using MediaPipe and writes annotated videos and snapshots to `outputs/`.
-
-**Quick Highlights**
-- **Live demo**: open `index.html` via a local server and choose `Webcam` or a video from the dropdown.
-- **Batch annotate**: run `process_videos.py` to generate `outputs/annotated_<video>` and snapshots.
-
-**Files of interest**
-- `index.html`: browser UI and selector
-- `sketch.js`: p5 + ml5 PoseNet integration, supports webcam + `videos/*.mp4`
-- `process_videos.py`: Python script that annotates videos with keypoints (MediaPipe)
-- `requirements.txt`: Python dependencies for the processor
-- `videos/`: put your input videos here (the repo includes `football.mp4`, `running.mp4`)
-- `images/`: small assets used by the demo (e.g. `batman.png`, `khan.jpg`)
-
-**How to run (Windows PowerShell)**
-
-1) Start the browser demo (serving files via a simple HTTP server so the browser can load video files):
-
-```powershell
-# from the project root
-python -m http.server 8000;
-# open http://localhost:8000 in your browser
-```
-
-Then open `http://localhost:8000` in Chrome/Edge and select `Webcam` or a video from the select box. If you want to allow webcam access, grant the permission when prompted.
-
-2) Run the batch video annotator (creates annotated videos + snapshots and a `videos/videos.json` file used by the browser UI):
-
-```powershell
-# create a virtualenv (optional but recommended)
-python -m venv .venv;
-.\.venv\Scripts\Activate.ps1;
-pip install -r requirements.txt;
-python process_videos.py;
-```
-
-After it runs you'll find annotated outputs in `outputs/` (e.g. `outputs/annotated_running.mp4`, and `outputs/running_snapshot.jpg`). The script also writes `videos/videos.json` which populates the dropdown in the browser UI.
-
-**Python version note**
- - `mediapipe` may not be available on very new Python releases. If `pip install -r requirements.txt` fails to find `mediapipe`, create a virtual environment using Python 3.10 or 3.11 and try again. Example with Chocolatey/installed Python:
-
-```powershell
-# create a venv backed by a compatible Python (3.10/3.11)
-python3.11 -m venv .venv; 
-.\.venv\Scripts\Activate.ps1; 
-pip install -r requirements.txt;
-python process_videos.py;
-```
-
-
-**What the scripts do**
-- `sketch.js` — captures webcam frames or plays a selected video and sends the chosen element to `ml5.poseNet`. Detected keypoints and skeleton lines are drawn onto the canvas in real time.
-- `process_videos.py` — loads each video from `videos/`, runs MediaPipe Pose on every frame, draws landmarks and connections, writes an annotated video to `outputs/` and saves the first annotated frame as a snapshot image.
-
-**Annotated outputs (generated)**
-You can find the annotated videos produced by the Ultralytics processor in the repository:
-
-- `videos/annotated_football.mp4` — annotated keypoints overlay for `football.mp4`.
-- `videos/annotated_running.mp4` — annotated keypoints overlay for `running.mp4`.
-
-I also generated thumbnails saved in `images/`:
-
-- `images/annotated_football_thumb.jpg`
-- `images/annotated_running_thumb.jpg`
-
-To regenerate these annotated outputs locally I used `process_videos_ultralytics.py` (Ultralytics prediction) and `convert_and_copy.py` (re-encode `.avi` to `.mp4` and extract thumbnails).
-
-**Customizing**
-- To change the overlay graphic used in the browser demo, replace `images/batman.png`.
-- To use a different Python pose model (e.g. YOLO-Pose), you can modify `process_videos.py` accordingly; MediaPipe was chosen for portability and easy install.
-
-**Tips**
-- If a local video doesn't appear in the browser dropdown after running the Python script, reload the page or ensure `videos/videos.json` exists.
-- For larger videos, the annotator may take several minutes — check `outputs/` as files are written.
-
-**License & Acknowledgements**
-This repository uses `ml5.js` (PoseNet) in-browser and `mediapipe` for the Python processor.
+<p align="center">
+  <strong>Click the GIFs above to watch full demos on YouTube →</strong>
+</p>
 
 ---
 
-If you'd like, I can:
-- Run `process_videos.py` now and add the generated annotated videos/screenshots into the repo.
-- Replace MediaPipe with the YOLO pose model in `process_videos.py`.
-- Add a tiny `run_demo.bat` and `run_processor.bat` for Windows convenience.
+## 📋 Table of Contents
 
+- [🌟 Features](#-features)
+- [📦 Project Structure](#-project-structure)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Documentation](#-documentation)
+- [🛠️ Advanced Usage](#-advanced-usage)
+- [🎨 Customization](#-customization)
+- [❓ Troubleshooting](#-troubleshooting)
+- [📜 License & Acknowledgements](#-license--acknowledgements)
+
+---
+
+## 🌟 Features
+
+✨ **Browser-Based Demo**
+- Real-time pose detection with p5.js + ml5 PoseNet
+- Play and annotate local video files
+- Interactive keypoint visualization with skeleton lines
+- Smooth, responsive web interface
+
+🎬 **Batch Video Processing**
+- Automated pose annotation for multiple videos
+- Powered by MediaPipe and Ultralytics
+- Generate annotated MP4s and frame snapshots
+- Configurable detection confidence thresholds
+
+📊 **Multiple Detection Backends**
+- **ml5.js PoseNet**: in-browser, fast, real-time
+- **MediaPipe**: Python-based batch processing
+- **Ultralytics**: YOLO-Pose alternative for higher accuracy
+
+---
+
+## 📦 Project Structure
+
+```
+├── index.html                      # Browser UI (p5.js + ml5)
+├── sketch.js                       # Main p5 sketch with PoseNet integration
+├── pose-yolo.py                    # Example YOLO Pose setup
+├── process_videos.py               # MediaPipe batch processor
+├── process_videos_ultralytics.py   # Ultralytics YOLO batch processor
+├── convert_and_copy.py             # Convert outputs to MP4 + extract thumbnails
+├── generate_gifs.py                # Generate preview GIFs
+├── images/                         # Assets & thumbnails
+│   ├── annotated_football.gif      # Football demo preview
+│   ├── annotated_running.gif       # Running demo preview
+│   ├── annotated_*_thumb.jpg       # Keyframe snapshots
+│   ├── batman.png                  # Overlay graphic for demo
+│   └── khan.jpg                    # Example overlay
+├── videos/                         # Input & annotated videos
+│   ├── football.mp4                # Original input
+│   ├── running.mp4                 # Original input
+│   ├── annotated_football.mp4      # Processed output
+│   ├── annotated_running.mp4       # Processed output
+│   └── videos.json                 # Video list for browser UI
+├── requirements.txt                # Python dependencies
+└── README.md                       # This file
+```
+
+---
+
+## 🚀 Quick Start
+
+### Option 1: Browser Demo (Recommended for First Time)
+
+**Prerequisites:** Python 3.8+
+
+1. **Start the local server:**
+   ```powershell
+   python -m http.server 8000
+   ```
+
+2. **Open in your browser:**
+   ```
+   http://localhost:8000
+   ```
+
+3. **Select a video from the dropdown** and watch pose keypoints annotate in real-time!
+
+### Option 2: Batch Process Your Own Videos
+
+1. **Setup environment:**
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   ```
+
+2. **Add your videos:**
+   - Place `.mp4` or `.avi` files in the `videos/` folder
+
+3. **Run the processor:**
+   ```powershell
+   python process_videos_ultralytics.py
+   ```
+
+4. **Convert to MP4 and create GIFs:**
+   ```powershell
+   python convert_and_copy.py
+   python generate_gifs.py
+   ```
+
+5. **Results appear in `videos/` and `images/`**
+
+---
+
+## 📖 Documentation
+
+### Browser Demo Usage
+
+- **Select Video**: Choose from the dropdown menu (populated from `videos/videos.json`)
+- **View Keypoints**: Green circles mark 17 body keypoints (PoseNet model)
+- **Skeleton Lines**: Yellow lines connect related joints
+- **Overlay**: Batman logo follows the detected pose
+
+### Video Processing Pipeline
+
+| Step | Script | Input | Output |
+|------|--------|-------|--------|
+| 1. Detect & Annotate | `process_videos_ultralytics.py` | `videos/*.mp4` | `runs/pose/predict*/` |
+| 2. Move Outputs | `move_runs_outputs.py` | `runs/` | `outputs_ultralytics/` |
+| 3. Convert to MP4 | `convert_and_copy.py` | `.avi` files | `videos/annotated_*.mp4` |
+| 4. Generate GIFs | `generate_gifs.py` | `.mp4` files | `images/annotated_*.gif` |
+
+---
+
+## 🛠️ Advanced Usage
+
+### Python Version Compatibility
+
+⚠️ **MediaPipe** requires Python 3.10 or 3.11. If installation fails:
+
+```powershell
+# Use Python 3.11 instead
+python3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+### Switching Detection Backends
+
+**Current (Ultralytics):**
+```powershell
+python process_videos_ultralytics.py
+```
+
+**Using MediaPipe:**
+```powershell
+python process_videos.py
+```
+
+**Using YOLO-Pose:**
+```powershell
+python pose-yolo.py
+```
+
+### Adjusting Detection Settings
+
+Edit `process_videos_ultralytics.py`:
+```python
+model.predict(
+    source=str(path),
+    conf=0.25,      # ← Lower = more detections, higher = stricter
+    save=True,
+    device='cpu'    # Change to 'cuda' if using NVIDIA GPU
+)
+```
+
+---
+
+## 🎨 Customization
+
+### Change the Overlay Graphic
+
+1. Replace `images/batman.png` with your own `.png` file (same size)
+2. Update `sketch.js` line 18 if needed:
+   ```javascript
+   face_img = loadImage("images/batman.png");
+   ```
+
+### Add More Videos
+
+1. Copy `.mp4` or `.avi` files to `videos/`
+2. Run the processor script (it auto-detects all videos)
+3. Refresh the browser UI to see new options
+
+### Adjust Canvas Size
+
+Edit `sketch.js` line 16:
+```javascript
+createCanvas(630, 450, 0, 0);  // width, height
+```
+
+---
+
+## ❓ Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| **"Port 8000 already in use"** | Kill existing process: `netstat -ano \| findstr :8000` → `taskkill /PID <pid>` |
+| **Video doesn't appear in dropdown** | Ensure `videos/videos.json` exists; refresh browser |
+| **No keypoints detected** | Increase confidence threshold (lower `conf` value) |
+| **"ModuleNotFoundError: No module named 'mediapipe'"** | Use Python 3.10/3.11; reinstall: `pip install mediapipe` |
+| **GIF generation fails** | Install Pillow: `pip install Pillow` |
+
+---
+
+## 🎥 YouTube Demos
+
+Full-length annotated videos are available on YouTube:
+
+- **🏈 Football:** [![Football demo](https://img.youtube.com/vi/SZ1sjwjK9xg/hqdefault.jpg)](https://www.youtube.com/watch?v=SZ1sjwjK9xg)
+- **🏃 Running:** [![Running demo](https://img.youtube.com/vi/puZ_7-WxDvk/hqdefault.jpg)](https://www.youtube.com/watch?v=puZ_7-WxDvk)
+
+---
+
+## 📜 License & Acknowledgements
+
+This project uses:
+- **[ml5.js](https://learn.ml5js.org/)** — PoseNet model for browser-based pose detection
+- **[MediaPipe](https://mediapipe.dev/)** — Google's lightweight pose estimation framework
+- **[Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)** — YOLO-Pose for batch processing
+- **[p5.js](https://p5js.org/)** — Creative coding library
+
+Licensed under the MIT License. See `LICENSE` file for details.
+
+---
+
+<p align="center">
+  Made with ❤️ for pose estimation enthusiasts
+  <br/>
+  <a href="https://github.com/Mohammad-Akhtar-Awan/human-pose-estimation">⭐ Star on GitHub</a>
+</p>
